@@ -1,0 +1,2038 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> VAR dec_list BEGIN statement_list END
+Rule 2     program -> VAR dec_list function_list BEGIN statement_list END
+Rule 3     function_list -> function
+Rule 4     function_list -> function_list SEMICOLON function
+Rule 5     function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN statement_list_function END
+Rule 6     function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function END
+Rule 7     statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+Rule 8     arguments -> argument
+Rule 9     arguments -> arguments SEMICOLON argument
+Rule 10    argument -> VARIABLE
+Rule 11    argument -> NUMBER_INTEGER
+Rule 12    argument -> NUMBER_REAL
+Rule 13    argument -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+Rule 14    dec_list -> dec
+Rule 15    dec_list -> dec_list SEMICOLON dec
+Rule 16    dec -> variable_list COLON type
+Rule 17    type -> INTEGER
+Rule 18    type -> REAL
+Rule 19    type -> STRING
+Rule 20    variable_list -> VARIABLE
+Rule 21    variable_list -> variable_list COMMA VARIABLE
+Rule 22    statement_list -> statement
+Rule 23    statement_list -> statement_list SEMICOLON statement
+Rule 24    statement -> assign
+Rule 25    statement -> write
+Rule 26    statement -> while
+Rule 27    statement -> if
+Rule 28    statement_list_if -> statement_for_if
+Rule 29    statement_list_if -> statement_list_if SEMICOLON statement_for_if
+Rule 30    statement_for_if -> assign
+Rule 31    statement_for_if -> write
+Rule 32    statement_for_if -> while
+Rule 33    statement_for_if -> if
+Rule 34    statement_for_if -> CONTINUE
+Rule 35    statement_for_if -> BREAK
+Rule 36    statement_list_function -> statement_for_function
+Rule 37    statement_list_function -> statement_list_function SEMICOLON statement_for_function
+Rule 38    statement_for_function -> assign
+Rule 39    statement_for_function -> write
+Rule 40    statement_for_function -> while
+Rule 41    statement_for_function -> if
+Rule 42    statement_for_function -> return
+Rule 43    return -> RETURN expression
+Rule 44    assign -> VARIABLE ASSIGNMENT expression
+Rule 45    assign -> VARIABLE ASSIGNMENT STRING
+Rule 46    expression -> addsub
+Rule 47    expression -> expression SUM addsub
+Rule 48    expression -> expression SUB addsub
+Rule 49    addsub -> multiplayer
+Rule 50    addsub -> addsub MUL multiplayer
+Rule 51    addsub -> addsub DIV multiplayer
+Rule 52    multiplayer -> statement_for_function_build
+Rule 53    multiplayer -> VARIABLE
+Rule 54    multiplayer -> NUMBER_INTEGER
+Rule 55    multiplayer -> NUMBER_REAL
+Rule 56    multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+Rule 57    write -> WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+Rule 58    write -> WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+Rule 59    while -> WHILE bool_expression DO BEGIN statement_list END
+Rule 60    if -> IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+Rule 61    if -> IF bool_expression THEN BEGIN statement_list_if END
+Rule 62    bool_expression -> bool_expression OR bool_expression_addsub
+Rule 63    bool_expression -> bool_expression_addsub
+Rule 64    bool_expression -> NOT bool_expression
+Rule 65    bool_expression -> bool
+Rule 66    bool_expression_addsub -> bool_expression_addsub AND bool
+Rule 67    bool_expression_addsub -> bool
+Rule 68    bool -> OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS
+Rule 69    bool -> OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS
+Rule 70    bool -> OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS
+
+Terminals, with rules where they appear
+
+AND                  : 66
+ASSIGNMENT           : 44 45
+BEGIN                : 1 2 5 6 59 60 60 61
+BREAK                : 35
+CLOSE_PARENHESIS     : 5 6 7 13 56 57 58 68 69 70
+COLON                : 16
+COMMA                : 21
+CONTINUE             : 34
+DIV                  : 51
+DO                   : 59
+ELSE                 : 60
+END                  : 1 2 5 6 59 60 60 61
+EQUALLY              : 68
+FUNCTION             : 5 6
+IF                   : 60 61
+INTEGER              : 17
+LESS                 : 70
+MORE                 : 69
+MUL                  : 50
+NOT                  : 64
+NUMBER_INTEGER       : 11 54
+NUMBER_REAL          : 12 55
+OPEN_PARENTHESIS     : 5 6 7 13 56 57 58 68 69 70
+OR                   : 62
+REAL                 : 18
+RETURN               : 43
+SEMICOLON            : 4 9 15 23 29 37
+STRING               : 19 45 58
+SUB                  : 48
+SUM                  : 47
+THEN                 : 60 61
+VAR                  : 1 2 6
+VARIABLE             : 5 6 7 10 20 21 44 45 53
+WHILE                : 59
+WRITE                : 57 58
+error                : 
+
+Nonterminals, with rules where they appear
+
+addsub               : 46 47 48 50 51
+argument             : 8 9
+arguments            : 7 9
+assign               : 24 30 38
+bool                 : 65 66 67
+bool_expression      : 59 60 61 62 64
+bool_expression_addsub : 62 63 66
+dec                  : 14 15
+dec_list             : 1 2 5 6 6 15
+expression           : 13 43 44 47 48 56 57 68 68 69 69 70 70
+function             : 3 4
+function_list        : 2 4
+if                   : 27 33 41
+multiplayer          : 49 50 51
+program              : 0
+return               : 42
+statement            : 22 23
+statement_for_function : 36 37
+statement_for_function_build : 52
+statement_for_if     : 28 29
+statement_list       : 1 2 23 59
+statement_list_function : 5 6 37
+statement_list_if    : 29 60 60 61
+type                 : 16
+variable_list        : 16 21
+while                : 26 32 40
+write                : 25 31 39
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . VAR dec_list BEGIN statement_list END
+    (2) program -> . VAR dec_list function_list BEGIN statement_list END
+
+    VAR             shift and go to state 2
+
+    program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> VAR . dec_list BEGIN statement_list END
+    (2) program -> VAR . dec_list function_list BEGIN statement_list END
+    (14) dec_list -> . dec
+    (15) dec_list -> . dec_list SEMICOLON dec
+    (16) dec -> . variable_list COLON type
+    (20) variable_list -> . VARIABLE
+    (21) variable_list -> . variable_list COMMA VARIABLE
+
+    VARIABLE        shift and go to state 6
+
+    dec_list                       shift and go to state 3
+    dec                            shift and go to state 4
+    variable_list                  shift and go to state 5
+
+state 3
+
+    (1) program -> VAR dec_list . BEGIN statement_list END
+    (2) program -> VAR dec_list . function_list BEGIN statement_list END
+    (15) dec_list -> dec_list . SEMICOLON dec
+    (3) function_list -> . function
+    (4) function_list -> . function_list SEMICOLON function
+    (5) function -> . FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN statement_list_function END
+    (6) function -> . FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function END
+
+    BEGIN           shift and go to state 7
+    SEMICOLON       shift and go to state 9
+    FUNCTION        shift and go to state 11
+
+    function_list                  shift and go to state 8
+    function                       shift and go to state 10
+
+state 4
+
+    (14) dec_list -> dec .
+
+    BEGIN           reduce using rule 14 (dec_list -> dec .)
+    SEMICOLON       reduce using rule 14 (dec_list -> dec .)
+    FUNCTION        reduce using rule 14 (dec_list -> dec .)
+    CLOSE_PARENHESIS reduce using rule 14 (dec_list -> dec .)
+    VARIABLE        reduce using rule 14 (dec_list -> dec .)
+    WRITE           reduce using rule 14 (dec_list -> dec .)
+    WHILE           reduce using rule 14 (dec_list -> dec .)
+    IF              reduce using rule 14 (dec_list -> dec .)
+    RETURN          reduce using rule 14 (dec_list -> dec .)
+
+
+state 5
+
+    (16) dec -> variable_list . COLON type
+    (21) variable_list -> variable_list . COMMA VARIABLE
+
+    COLON           shift and go to state 12
+    COMMA           shift and go to state 13
+
+
+state 6
+
+    (20) variable_list -> VARIABLE .
+
+    COLON           reduce using rule 20 (variable_list -> VARIABLE .)
+    COMMA           reduce using rule 20 (variable_list -> VARIABLE .)
+
+
+state 7
+
+    (1) program -> VAR dec_list BEGIN . statement_list END
+    (22) statement_list -> . statement
+    (23) statement_list -> . statement_list SEMICOLON statement
+    (24) statement -> . assign
+    (25) statement -> . write
+    (26) statement -> . while
+    (27) statement -> . if
+    (44) assign -> . VARIABLE ASSIGNMENT expression
+    (45) assign -> . VARIABLE ASSIGNMENT STRING
+    (57) write -> . WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> . WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+    (59) while -> . WHILE bool_expression DO BEGIN statement_list END
+    (60) if -> . IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> . IF bool_expression THEN BEGIN statement_list_if END
+
+    VARIABLE        shift and go to state 20
+    WRITE           shift and go to state 21
+    WHILE           shift and go to state 22
+    IF              shift and go to state 23
+
+    statement_list                 shift and go to state 14
+    statement                      shift and go to state 15
+    assign                         shift and go to state 16
+    write                          shift and go to state 17
+    while                          shift and go to state 18
+    if                             shift and go to state 19
+
+state 8
+
+    (2) program -> VAR dec_list function_list . BEGIN statement_list END
+    (4) function_list -> function_list . SEMICOLON function
+
+    BEGIN           shift and go to state 24
+    SEMICOLON       shift and go to state 25
+
+
+state 9
+
+    (15) dec_list -> dec_list SEMICOLON . dec
+    (16) dec -> . variable_list COLON type
+    (20) variable_list -> . VARIABLE
+    (21) variable_list -> . variable_list COMMA VARIABLE
+
+    VARIABLE        shift and go to state 6
+
+    dec                            shift and go to state 26
+    variable_list                  shift and go to state 5
+
+state 10
+
+    (3) function_list -> function .
+
+    BEGIN           reduce using rule 3 (function_list -> function .)
+    SEMICOLON       reduce using rule 3 (function_list -> function .)
+
+
+state 11
+
+    (5) function -> FUNCTION . VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN statement_list_function END
+    (6) function -> FUNCTION . VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function END
+
+    VARIABLE        shift and go to state 27
+
+
+state 12
+
+    (16) dec -> variable_list COLON . type
+    (17) type -> . INTEGER
+    (18) type -> . REAL
+    (19) type -> . STRING
+
+    INTEGER         shift and go to state 29
+    REAL            shift and go to state 30
+    STRING          shift and go to state 31
+
+    type                           shift and go to state 28
+
+state 13
+
+    (21) variable_list -> variable_list COMMA . VARIABLE
+
+    VARIABLE        shift and go to state 32
+
+
+state 14
+
+    (1) program -> VAR dec_list BEGIN statement_list . END
+    (23) statement_list -> statement_list . SEMICOLON statement
+
+    END             shift and go to state 33
+    SEMICOLON       shift and go to state 34
+
+
+state 15
+
+    (22) statement_list -> statement .
+
+    END             reduce using rule 22 (statement_list -> statement .)
+    SEMICOLON       reduce using rule 22 (statement_list -> statement .)
+
+
+state 16
+
+    (24) statement -> assign .
+
+    END             reduce using rule 24 (statement -> assign .)
+    SEMICOLON       reduce using rule 24 (statement -> assign .)
+
+
+state 17
+
+    (25) statement -> write .
+
+    END             reduce using rule 25 (statement -> write .)
+    SEMICOLON       reduce using rule 25 (statement -> write .)
+
+
+state 18
+
+    (26) statement -> while .
+
+    END             reduce using rule 26 (statement -> while .)
+    SEMICOLON       reduce using rule 26 (statement -> while .)
+
+
+state 19
+
+    (27) statement -> if .
+
+    END             reduce using rule 27 (statement -> if .)
+    SEMICOLON       reduce using rule 27 (statement -> if .)
+
+
+state 20
+
+    (44) assign -> VARIABLE . ASSIGNMENT expression
+    (45) assign -> VARIABLE . ASSIGNMENT STRING
+
+    ASSIGNMENT      shift and go to state 35
+
+
+state 21
+
+    (57) write -> WRITE . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> WRITE . OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+
+    OPEN_PARENTHESIS shift and go to state 36
+
+
+state 22
+
+    (59) while -> WHILE . bool_expression DO BEGIN statement_list END
+    (62) bool_expression -> . bool_expression OR bool_expression_addsub
+    (63) bool_expression -> . bool_expression_addsub
+    (64) bool_expression -> . NOT bool_expression
+    (65) bool_expression -> . bool
+    (66) bool_expression_addsub -> . bool_expression_addsub AND bool
+    (67) bool_expression_addsub -> . bool
+    (68) bool -> . OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS
+    (69) bool -> . OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS
+    (70) bool -> . OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS
+
+    NOT             shift and go to state 39
+    OPEN_PARENTHESIS shift and go to state 41
+
+    bool_expression                shift and go to state 37
+    bool_expression_addsub         shift and go to state 38
+    bool                           shift and go to state 40
+
+state 23
+
+    (60) if -> IF . bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> IF . bool_expression THEN BEGIN statement_list_if END
+    (62) bool_expression -> . bool_expression OR bool_expression_addsub
+    (63) bool_expression -> . bool_expression_addsub
+    (64) bool_expression -> . NOT bool_expression
+    (65) bool_expression -> . bool
+    (66) bool_expression_addsub -> . bool_expression_addsub AND bool
+    (67) bool_expression_addsub -> . bool
+    (68) bool -> . OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS
+    (69) bool -> . OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS
+    (70) bool -> . OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS
+
+    NOT             shift and go to state 39
+    OPEN_PARENTHESIS shift and go to state 41
+
+    bool_expression                shift and go to state 42
+    bool_expression_addsub         shift and go to state 38
+    bool                           shift and go to state 40
+
+state 24
+
+    (2) program -> VAR dec_list function_list BEGIN . statement_list END
+    (22) statement_list -> . statement
+    (23) statement_list -> . statement_list SEMICOLON statement
+    (24) statement -> . assign
+    (25) statement -> . write
+    (26) statement -> . while
+    (27) statement -> . if
+    (44) assign -> . VARIABLE ASSIGNMENT expression
+    (45) assign -> . VARIABLE ASSIGNMENT STRING
+    (57) write -> . WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> . WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+    (59) while -> . WHILE bool_expression DO BEGIN statement_list END
+    (60) if -> . IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> . IF bool_expression THEN BEGIN statement_list_if END
+
+    VARIABLE        shift and go to state 20
+    WRITE           shift and go to state 21
+    WHILE           shift and go to state 22
+    IF              shift and go to state 23
+
+    statement_list                 shift and go to state 43
+    statement                      shift and go to state 15
+    assign                         shift and go to state 16
+    write                          shift and go to state 17
+    while                          shift and go to state 18
+    if                             shift and go to state 19
+
+state 25
+
+    (4) function_list -> function_list SEMICOLON . function
+    (5) function -> . FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN statement_list_function END
+    (6) function -> . FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function END
+
+    FUNCTION        shift and go to state 11
+
+    function                       shift and go to state 44
+
+state 26
+
+    (15) dec_list -> dec_list SEMICOLON dec .
+
+    BEGIN           reduce using rule 15 (dec_list -> dec_list SEMICOLON dec .)
+    SEMICOLON       reduce using rule 15 (dec_list -> dec_list SEMICOLON dec .)
+    FUNCTION        reduce using rule 15 (dec_list -> dec_list SEMICOLON dec .)
+    CLOSE_PARENHESIS reduce using rule 15 (dec_list -> dec_list SEMICOLON dec .)
+    VARIABLE        reduce using rule 15 (dec_list -> dec_list SEMICOLON dec .)
+    WRITE           reduce using rule 15 (dec_list -> dec_list SEMICOLON dec .)
+    WHILE           reduce using rule 15 (dec_list -> dec_list SEMICOLON dec .)
+    IF              reduce using rule 15 (dec_list -> dec_list SEMICOLON dec .)
+    RETURN          reduce using rule 15 (dec_list -> dec_list SEMICOLON dec .)
+
+
+state 27
+
+    (5) function -> FUNCTION VARIABLE . OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN statement_list_function END
+    (6) function -> FUNCTION VARIABLE . OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function END
+
+    OPEN_PARENTHESIS shift and go to state 45
+
+
+state 28
+
+    (16) dec -> variable_list COLON type .
+
+    BEGIN           reduce using rule 16 (dec -> variable_list COLON type .)
+    SEMICOLON       reduce using rule 16 (dec -> variable_list COLON type .)
+    FUNCTION        reduce using rule 16 (dec -> variable_list COLON type .)
+    CLOSE_PARENHESIS reduce using rule 16 (dec -> variable_list COLON type .)
+    VARIABLE        reduce using rule 16 (dec -> variable_list COLON type .)
+    WRITE           reduce using rule 16 (dec -> variable_list COLON type .)
+    WHILE           reduce using rule 16 (dec -> variable_list COLON type .)
+    IF              reduce using rule 16 (dec -> variable_list COLON type .)
+    RETURN          reduce using rule 16 (dec -> variable_list COLON type .)
+
+
+state 29
+
+    (17) type -> INTEGER .
+
+    BEGIN           reduce using rule 17 (type -> INTEGER .)
+    SEMICOLON       reduce using rule 17 (type -> INTEGER .)
+    FUNCTION        reduce using rule 17 (type -> INTEGER .)
+    CLOSE_PARENHESIS reduce using rule 17 (type -> INTEGER .)
+    VARIABLE        reduce using rule 17 (type -> INTEGER .)
+    WRITE           reduce using rule 17 (type -> INTEGER .)
+    WHILE           reduce using rule 17 (type -> INTEGER .)
+    IF              reduce using rule 17 (type -> INTEGER .)
+    RETURN          reduce using rule 17 (type -> INTEGER .)
+
+
+state 30
+
+    (18) type -> REAL .
+
+    BEGIN           reduce using rule 18 (type -> REAL .)
+    SEMICOLON       reduce using rule 18 (type -> REAL .)
+    FUNCTION        reduce using rule 18 (type -> REAL .)
+    CLOSE_PARENHESIS reduce using rule 18 (type -> REAL .)
+    VARIABLE        reduce using rule 18 (type -> REAL .)
+    WRITE           reduce using rule 18 (type -> REAL .)
+    WHILE           reduce using rule 18 (type -> REAL .)
+    IF              reduce using rule 18 (type -> REAL .)
+    RETURN          reduce using rule 18 (type -> REAL .)
+
+
+state 31
+
+    (19) type -> STRING .
+
+    BEGIN           reduce using rule 19 (type -> STRING .)
+    SEMICOLON       reduce using rule 19 (type -> STRING .)
+    FUNCTION        reduce using rule 19 (type -> STRING .)
+    CLOSE_PARENHESIS reduce using rule 19 (type -> STRING .)
+    VARIABLE        reduce using rule 19 (type -> STRING .)
+    WRITE           reduce using rule 19 (type -> STRING .)
+    WHILE           reduce using rule 19 (type -> STRING .)
+    IF              reduce using rule 19 (type -> STRING .)
+    RETURN          reduce using rule 19 (type -> STRING .)
+
+
+state 32
+
+    (21) variable_list -> variable_list COMMA VARIABLE .
+
+    COLON           reduce using rule 21 (variable_list -> variable_list COMMA VARIABLE .)
+    COMMA           reduce using rule 21 (variable_list -> variable_list COMMA VARIABLE .)
+
+
+state 33
+
+    (1) program -> VAR dec_list BEGIN statement_list END .
+
+    $end            reduce using rule 1 (program -> VAR dec_list BEGIN statement_list END .)
+
+
+state 34
+
+    (23) statement_list -> statement_list SEMICOLON . statement
+    (24) statement -> . assign
+    (25) statement -> . write
+    (26) statement -> . while
+    (27) statement -> . if
+    (44) assign -> . VARIABLE ASSIGNMENT expression
+    (45) assign -> . VARIABLE ASSIGNMENT STRING
+    (57) write -> . WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> . WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+    (59) while -> . WHILE bool_expression DO BEGIN statement_list END
+    (60) if -> . IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> . IF bool_expression THEN BEGIN statement_list_if END
+
+    VARIABLE        shift and go to state 20
+    WRITE           shift and go to state 21
+    WHILE           shift and go to state 22
+    IF              shift and go to state 23
+
+    statement                      shift and go to state 46
+    assign                         shift and go to state 16
+    write                          shift and go to state 17
+    while                          shift and go to state 18
+    if                             shift and go to state 19
+
+state 35
+
+    (44) assign -> VARIABLE ASSIGNMENT . expression
+    (45) assign -> VARIABLE ASSIGNMENT . STRING
+    (46) expression -> . addsub
+    (47) expression -> . expression SUM addsub
+    (48) expression -> . expression SUB addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    STRING          shift and go to state 49
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    expression                     shift and go to state 48
+    addsub                         shift and go to state 50
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 36
+
+    (57) write -> WRITE OPEN_PARENTHESIS . expression CLOSE_PARENHESIS
+    (58) write -> WRITE OPEN_PARENTHESIS . STRING CLOSE_PARENHESIS
+    (46) expression -> . addsub
+    (47) expression -> . expression SUM addsub
+    (48) expression -> . expression SUB addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    STRING          shift and go to state 57
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    expression                     shift and go to state 56
+    addsub                         shift and go to state 50
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 37
+
+    (59) while -> WHILE bool_expression . DO BEGIN statement_list END
+    (62) bool_expression -> bool_expression . OR bool_expression_addsub
+
+    DO              shift and go to state 58
+    OR              shift and go to state 59
+
+
+state 38
+
+    (63) bool_expression -> bool_expression_addsub .
+    (66) bool_expression_addsub -> bool_expression_addsub . AND bool
+
+    DO              reduce using rule 63 (bool_expression -> bool_expression_addsub .)
+    OR              reduce using rule 63 (bool_expression -> bool_expression_addsub .)
+    THEN            reduce using rule 63 (bool_expression -> bool_expression_addsub .)
+    AND             shift and go to state 60
+
+
+state 39
+
+    (64) bool_expression -> NOT . bool_expression
+    (62) bool_expression -> . bool_expression OR bool_expression_addsub
+    (63) bool_expression -> . bool_expression_addsub
+    (64) bool_expression -> . NOT bool_expression
+    (65) bool_expression -> . bool
+    (66) bool_expression_addsub -> . bool_expression_addsub AND bool
+    (67) bool_expression_addsub -> . bool
+    (68) bool -> . OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS
+    (69) bool -> . OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS
+    (70) bool -> . OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS
+
+    NOT             shift and go to state 39
+    OPEN_PARENTHESIS shift and go to state 41
+
+    bool_expression                shift and go to state 61
+    bool_expression_addsub         shift and go to state 38
+    bool                           shift and go to state 40
+
+state 40
+
+    (65) bool_expression -> bool .
+    (67) bool_expression_addsub -> bool .
+
+  ! reduce/reduce conflict for DO resolved using rule 65 (bool_expression -> bool .)
+  ! reduce/reduce conflict for OR resolved using rule 65 (bool_expression -> bool .)
+  ! reduce/reduce conflict for THEN resolved using rule 65 (bool_expression -> bool .)
+    DO              reduce using rule 65 (bool_expression -> bool .)
+    OR              reduce using rule 65 (bool_expression -> bool .)
+    THEN            reduce using rule 65 (bool_expression -> bool .)
+    AND             reduce using rule 67 (bool_expression_addsub -> bool .)
+
+  ! DO              [ reduce using rule 67 (bool_expression_addsub -> bool .) ]
+  ! OR              [ reduce using rule 67 (bool_expression_addsub -> bool .) ]
+  ! THEN            [ reduce using rule 67 (bool_expression_addsub -> bool .) ]
+
+
+state 41
+
+    (68) bool -> OPEN_PARENTHESIS . expression EQUALLY expression CLOSE_PARENHESIS
+    (69) bool -> OPEN_PARENTHESIS . expression MORE expression CLOSE_PARENHESIS
+    (70) bool -> OPEN_PARENTHESIS . expression LESS expression CLOSE_PARENHESIS
+    (46) expression -> . addsub
+    (47) expression -> . expression SUM addsub
+    (48) expression -> . expression SUB addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    expression                     shift and go to state 62
+    addsub                         shift and go to state 50
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 42
+
+    (60) if -> IF bool_expression . THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> IF bool_expression . THEN BEGIN statement_list_if END
+    (62) bool_expression -> bool_expression . OR bool_expression_addsub
+
+    THEN            shift and go to state 63
+    OR              shift and go to state 59
+
+
+state 43
+
+    (2) program -> VAR dec_list function_list BEGIN statement_list . END
+    (23) statement_list -> statement_list . SEMICOLON statement
+
+    END             shift and go to state 64
+    SEMICOLON       shift and go to state 34
+
+
+state 44
+
+    (4) function_list -> function_list SEMICOLON function .
+
+    BEGIN           reduce using rule 4 (function_list -> function_list SEMICOLON function .)
+    SEMICOLON       reduce using rule 4 (function_list -> function_list SEMICOLON function .)
+
+
+state 45
+
+    (5) function -> FUNCTION VARIABLE OPEN_PARENTHESIS . dec_list CLOSE_PARENHESIS BEGIN statement_list_function END
+    (6) function -> FUNCTION VARIABLE OPEN_PARENTHESIS . dec_list CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function END
+    (14) dec_list -> . dec
+    (15) dec_list -> . dec_list SEMICOLON dec
+    (16) dec -> . variable_list COLON type
+    (20) variable_list -> . VARIABLE
+    (21) variable_list -> . variable_list COMMA VARIABLE
+
+    VARIABLE        shift and go to state 6
+
+    dec_list                       shift and go to state 65
+    dec                            shift and go to state 4
+    variable_list                  shift and go to state 5
+
+state 46
+
+    (23) statement_list -> statement_list SEMICOLON statement .
+
+    END             reduce using rule 23 (statement_list -> statement_list SEMICOLON statement .)
+    SEMICOLON       reduce using rule 23 (statement_list -> statement_list SEMICOLON statement .)
+
+
+state 47
+
+    (53) multiplayer -> VARIABLE .
+    (7) statement_for_function_build -> VARIABLE . OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    MUL             reduce using rule 53 (multiplayer -> VARIABLE .)
+    DIV             reduce using rule 53 (multiplayer -> VARIABLE .)
+    SUM             reduce using rule 53 (multiplayer -> VARIABLE .)
+    SUB             reduce using rule 53 (multiplayer -> VARIABLE .)
+    END             reduce using rule 53 (multiplayer -> VARIABLE .)
+    SEMICOLON       reduce using rule 53 (multiplayer -> VARIABLE .)
+    CLOSE_PARENHESIS reduce using rule 53 (multiplayer -> VARIABLE .)
+    EQUALLY         reduce using rule 53 (multiplayer -> VARIABLE .)
+    MORE            reduce using rule 53 (multiplayer -> VARIABLE .)
+    LESS            reduce using rule 53 (multiplayer -> VARIABLE .)
+    OPEN_PARENTHESIS shift and go to state 66
+
+
+state 48
+
+    (44) assign -> VARIABLE ASSIGNMENT expression .
+    (47) expression -> expression . SUM addsub
+    (48) expression -> expression . SUB addsub
+
+    END             reduce using rule 44 (assign -> VARIABLE ASSIGNMENT expression .)
+    SEMICOLON       reduce using rule 44 (assign -> VARIABLE ASSIGNMENT expression .)
+    SUM             shift and go to state 67
+    SUB             shift and go to state 68
+
+
+state 49
+
+    (45) assign -> VARIABLE ASSIGNMENT STRING .
+
+    END             reduce using rule 45 (assign -> VARIABLE ASSIGNMENT STRING .)
+    SEMICOLON       reduce using rule 45 (assign -> VARIABLE ASSIGNMENT STRING .)
+
+
+state 50
+
+    (46) expression -> addsub .
+    (50) addsub -> addsub . MUL multiplayer
+    (51) addsub -> addsub . DIV multiplayer
+
+    SUM             reduce using rule 46 (expression -> addsub .)
+    SUB             reduce using rule 46 (expression -> addsub .)
+    END             reduce using rule 46 (expression -> addsub .)
+    SEMICOLON       reduce using rule 46 (expression -> addsub .)
+    CLOSE_PARENHESIS reduce using rule 46 (expression -> addsub .)
+    EQUALLY         reduce using rule 46 (expression -> addsub .)
+    MORE            reduce using rule 46 (expression -> addsub .)
+    LESS            reduce using rule 46 (expression -> addsub .)
+    MUL             shift and go to state 69
+    DIV             shift and go to state 70
+
+
+state 51
+
+    (49) addsub -> multiplayer .
+
+    MUL             reduce using rule 49 (addsub -> multiplayer .)
+    DIV             reduce using rule 49 (addsub -> multiplayer .)
+    SUM             reduce using rule 49 (addsub -> multiplayer .)
+    SUB             reduce using rule 49 (addsub -> multiplayer .)
+    END             reduce using rule 49 (addsub -> multiplayer .)
+    SEMICOLON       reduce using rule 49 (addsub -> multiplayer .)
+    CLOSE_PARENHESIS reduce using rule 49 (addsub -> multiplayer .)
+    EQUALLY         reduce using rule 49 (addsub -> multiplayer .)
+    MORE            reduce using rule 49 (addsub -> multiplayer .)
+    LESS            reduce using rule 49 (addsub -> multiplayer .)
+
+
+state 52
+
+    (52) multiplayer -> statement_for_function_build .
+
+    MUL             reduce using rule 52 (multiplayer -> statement_for_function_build .)
+    DIV             reduce using rule 52 (multiplayer -> statement_for_function_build .)
+    SUM             reduce using rule 52 (multiplayer -> statement_for_function_build .)
+    SUB             reduce using rule 52 (multiplayer -> statement_for_function_build .)
+    END             reduce using rule 52 (multiplayer -> statement_for_function_build .)
+    SEMICOLON       reduce using rule 52 (multiplayer -> statement_for_function_build .)
+    CLOSE_PARENHESIS reduce using rule 52 (multiplayer -> statement_for_function_build .)
+    EQUALLY         reduce using rule 52 (multiplayer -> statement_for_function_build .)
+    MORE            reduce using rule 52 (multiplayer -> statement_for_function_build .)
+    LESS            reduce using rule 52 (multiplayer -> statement_for_function_build .)
+
+
+state 53
+
+    (54) multiplayer -> NUMBER_INTEGER .
+
+    MUL             reduce using rule 54 (multiplayer -> NUMBER_INTEGER .)
+    DIV             reduce using rule 54 (multiplayer -> NUMBER_INTEGER .)
+    SUM             reduce using rule 54 (multiplayer -> NUMBER_INTEGER .)
+    SUB             reduce using rule 54 (multiplayer -> NUMBER_INTEGER .)
+    END             reduce using rule 54 (multiplayer -> NUMBER_INTEGER .)
+    SEMICOLON       reduce using rule 54 (multiplayer -> NUMBER_INTEGER .)
+    CLOSE_PARENHESIS reduce using rule 54 (multiplayer -> NUMBER_INTEGER .)
+    EQUALLY         reduce using rule 54 (multiplayer -> NUMBER_INTEGER .)
+    MORE            reduce using rule 54 (multiplayer -> NUMBER_INTEGER .)
+    LESS            reduce using rule 54 (multiplayer -> NUMBER_INTEGER .)
+
+
+state 54
+
+    (55) multiplayer -> NUMBER_REAL .
+
+    MUL             reduce using rule 55 (multiplayer -> NUMBER_REAL .)
+    DIV             reduce using rule 55 (multiplayer -> NUMBER_REAL .)
+    SUM             reduce using rule 55 (multiplayer -> NUMBER_REAL .)
+    SUB             reduce using rule 55 (multiplayer -> NUMBER_REAL .)
+    END             reduce using rule 55 (multiplayer -> NUMBER_REAL .)
+    SEMICOLON       reduce using rule 55 (multiplayer -> NUMBER_REAL .)
+    CLOSE_PARENHESIS reduce using rule 55 (multiplayer -> NUMBER_REAL .)
+    EQUALLY         reduce using rule 55 (multiplayer -> NUMBER_REAL .)
+    MORE            reduce using rule 55 (multiplayer -> NUMBER_REAL .)
+    LESS            reduce using rule 55 (multiplayer -> NUMBER_REAL .)
+
+
+state 55
+
+    (56) multiplayer -> OPEN_PARENTHESIS . expression CLOSE_PARENHESIS
+    (46) expression -> . addsub
+    (47) expression -> . expression SUM addsub
+    (48) expression -> . expression SUB addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    expression                     shift and go to state 71
+    addsub                         shift and go to state 50
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 56
+
+    (57) write -> WRITE OPEN_PARENTHESIS expression . CLOSE_PARENHESIS
+    (47) expression -> expression . SUM addsub
+    (48) expression -> expression . SUB addsub
+
+    CLOSE_PARENHESIS shift and go to state 72
+    SUM             shift and go to state 67
+    SUB             shift and go to state 68
+
+
+state 57
+
+    (58) write -> WRITE OPEN_PARENTHESIS STRING . CLOSE_PARENHESIS
+
+    CLOSE_PARENHESIS shift and go to state 73
+
+
+state 58
+
+    (59) while -> WHILE bool_expression DO . BEGIN statement_list END
+
+    BEGIN           shift and go to state 74
+
+
+state 59
+
+    (62) bool_expression -> bool_expression OR . bool_expression_addsub
+    (66) bool_expression_addsub -> . bool_expression_addsub AND bool
+    (67) bool_expression_addsub -> . bool
+    (68) bool -> . OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS
+    (69) bool -> . OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS
+    (70) bool -> . OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS
+
+    OPEN_PARENTHESIS shift and go to state 41
+
+    bool_expression_addsub         shift and go to state 75
+    bool                           shift and go to state 76
+
+state 60
+
+    (66) bool_expression_addsub -> bool_expression_addsub AND . bool
+    (68) bool -> . OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS
+    (69) bool -> . OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS
+    (70) bool -> . OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS
+
+    OPEN_PARENTHESIS shift and go to state 41
+
+    bool                           shift and go to state 77
+
+state 61
+
+    (64) bool_expression -> NOT bool_expression .
+    (62) bool_expression -> bool_expression . OR bool_expression_addsub
+
+  ! shift/reduce conflict for OR resolved as shift
+    DO              reduce using rule 64 (bool_expression -> NOT bool_expression .)
+    THEN            reduce using rule 64 (bool_expression -> NOT bool_expression .)
+    OR              shift and go to state 59
+
+  ! OR              [ reduce using rule 64 (bool_expression -> NOT bool_expression .) ]
+
+
+state 62
+
+    (68) bool -> OPEN_PARENTHESIS expression . EQUALLY expression CLOSE_PARENHESIS
+    (69) bool -> OPEN_PARENTHESIS expression . MORE expression CLOSE_PARENHESIS
+    (70) bool -> OPEN_PARENTHESIS expression . LESS expression CLOSE_PARENHESIS
+    (47) expression -> expression . SUM addsub
+    (48) expression -> expression . SUB addsub
+
+    EQUALLY         shift and go to state 78
+    MORE            shift and go to state 79
+    LESS            shift and go to state 80
+    SUM             shift and go to state 67
+    SUB             shift and go to state 68
+
+
+state 63
+
+    (60) if -> IF bool_expression THEN . BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> IF bool_expression THEN . BEGIN statement_list_if END
+
+    BEGIN           shift and go to state 81
+
+
+state 64
+
+    (2) program -> VAR dec_list function_list BEGIN statement_list END .
+
+    $end            reduce using rule 2 (program -> VAR dec_list function_list BEGIN statement_list END .)
+
+
+state 65
+
+    (5) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list . CLOSE_PARENHESIS BEGIN statement_list_function END
+    (6) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list . CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function END
+    (15) dec_list -> dec_list . SEMICOLON dec
+
+    CLOSE_PARENHESIS shift and go to state 82
+    SEMICOLON       shift and go to state 9
+
+
+state 66
+
+    (7) statement_for_function_build -> VARIABLE OPEN_PARENTHESIS . arguments CLOSE_PARENHESIS
+    (8) arguments -> . argument
+    (9) arguments -> . arguments SEMICOLON argument
+    (10) argument -> . VARIABLE
+    (11) argument -> . NUMBER_INTEGER
+    (12) argument -> . NUMBER_REAL
+    (13) argument -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 83
+    NUMBER_INTEGER  shift and go to state 87
+    NUMBER_REAL     shift and go to state 88
+    OPEN_PARENTHESIS shift and go to state 84
+
+    arguments                      shift and go to state 85
+    argument                       shift and go to state 86
+
+state 67
+
+    (47) expression -> expression SUM . addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    addsub                         shift and go to state 89
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 68
+
+    (48) expression -> expression SUB . addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    addsub                         shift and go to state 90
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 69
+
+    (50) addsub -> addsub MUL . multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    multiplayer                    shift and go to state 91
+    statement_for_function_build   shift and go to state 52
+
+state 70
+
+    (51) addsub -> addsub DIV . multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    multiplayer                    shift and go to state 92
+    statement_for_function_build   shift and go to state 52
+
+state 71
+
+    (56) multiplayer -> OPEN_PARENTHESIS expression . CLOSE_PARENHESIS
+    (47) expression -> expression . SUM addsub
+    (48) expression -> expression . SUB addsub
+
+    CLOSE_PARENHESIS shift and go to state 93
+    SUM             shift and go to state 67
+    SUB             shift and go to state 68
+
+
+state 72
+
+    (57) write -> WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS .
+
+    END             reduce using rule 57 (write -> WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    SEMICOLON       reduce using rule 57 (write -> WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+
+
+state 73
+
+    (58) write -> WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS .
+
+    END             reduce using rule 58 (write -> WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS .)
+    SEMICOLON       reduce using rule 58 (write -> WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS .)
+
+
+state 74
+
+    (59) while -> WHILE bool_expression DO BEGIN . statement_list END
+    (22) statement_list -> . statement
+    (23) statement_list -> . statement_list SEMICOLON statement
+    (24) statement -> . assign
+    (25) statement -> . write
+    (26) statement -> . while
+    (27) statement -> . if
+    (44) assign -> . VARIABLE ASSIGNMENT expression
+    (45) assign -> . VARIABLE ASSIGNMENT STRING
+    (57) write -> . WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> . WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+    (59) while -> . WHILE bool_expression DO BEGIN statement_list END
+    (60) if -> . IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> . IF bool_expression THEN BEGIN statement_list_if END
+
+    VARIABLE        shift and go to state 20
+    WRITE           shift and go to state 21
+    WHILE           shift and go to state 22
+    IF              shift and go to state 23
+
+    statement_list                 shift and go to state 94
+    statement                      shift and go to state 15
+    assign                         shift and go to state 16
+    write                          shift and go to state 17
+    while                          shift and go to state 18
+    if                             shift and go to state 19
+
+state 75
+
+    (62) bool_expression -> bool_expression OR bool_expression_addsub .
+    (66) bool_expression_addsub -> bool_expression_addsub . AND bool
+
+    DO              reduce using rule 62 (bool_expression -> bool_expression OR bool_expression_addsub .)
+    OR              reduce using rule 62 (bool_expression -> bool_expression OR bool_expression_addsub .)
+    THEN            reduce using rule 62 (bool_expression -> bool_expression OR bool_expression_addsub .)
+    AND             shift and go to state 60
+
+
+state 76
+
+    (67) bool_expression_addsub -> bool .
+
+    AND             reduce using rule 67 (bool_expression_addsub -> bool .)
+    DO              reduce using rule 67 (bool_expression_addsub -> bool .)
+    OR              reduce using rule 67 (bool_expression_addsub -> bool .)
+    THEN            reduce using rule 67 (bool_expression_addsub -> bool .)
+
+
+state 77
+
+    (66) bool_expression_addsub -> bool_expression_addsub AND bool .
+
+    AND             reduce using rule 66 (bool_expression_addsub -> bool_expression_addsub AND bool .)
+    DO              reduce using rule 66 (bool_expression_addsub -> bool_expression_addsub AND bool .)
+    OR              reduce using rule 66 (bool_expression_addsub -> bool_expression_addsub AND bool .)
+    THEN            reduce using rule 66 (bool_expression_addsub -> bool_expression_addsub AND bool .)
+
+
+state 78
+
+    (68) bool -> OPEN_PARENTHESIS expression EQUALLY . expression CLOSE_PARENHESIS
+    (46) expression -> . addsub
+    (47) expression -> . expression SUM addsub
+    (48) expression -> . expression SUB addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    expression                     shift and go to state 95
+    addsub                         shift and go to state 50
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 79
+
+    (69) bool -> OPEN_PARENTHESIS expression MORE . expression CLOSE_PARENHESIS
+    (46) expression -> . addsub
+    (47) expression -> . expression SUM addsub
+    (48) expression -> . expression SUB addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    expression                     shift and go to state 96
+    addsub                         shift and go to state 50
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 80
+
+    (70) bool -> OPEN_PARENTHESIS expression LESS . expression CLOSE_PARENHESIS
+    (46) expression -> . addsub
+    (47) expression -> . expression SUM addsub
+    (48) expression -> . expression SUB addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    expression                     shift and go to state 97
+    addsub                         shift and go to state 50
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 81
+
+    (60) if -> IF bool_expression THEN BEGIN . statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> IF bool_expression THEN BEGIN . statement_list_if END
+    (28) statement_list_if -> . statement_for_if
+    (29) statement_list_if -> . statement_list_if SEMICOLON statement_for_if
+    (30) statement_for_if -> . assign
+    (31) statement_for_if -> . write
+    (32) statement_for_if -> . while
+    (33) statement_for_if -> . if
+    (34) statement_for_if -> . CONTINUE
+    (35) statement_for_if -> . BREAK
+    (44) assign -> . VARIABLE ASSIGNMENT expression
+    (45) assign -> . VARIABLE ASSIGNMENT STRING
+    (57) write -> . WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> . WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+    (59) while -> . WHILE bool_expression DO BEGIN statement_list END
+    (60) if -> . IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> . IF bool_expression THEN BEGIN statement_list_if END
+
+    CONTINUE        shift and go to state 104
+    BREAK           shift and go to state 105
+    VARIABLE        shift and go to state 20
+    WRITE           shift and go to state 21
+    WHILE           shift and go to state 22
+    IF              shift and go to state 23
+
+    statement_list_if              shift and go to state 98
+    statement_for_if               shift and go to state 99
+    assign                         shift and go to state 100
+    write                          shift and go to state 101
+    while                          shift and go to state 102
+    if                             shift and go to state 103
+
+state 82
+
+    (5) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS . BEGIN statement_list_function END
+    (6) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS . BEGIN VAR dec_list statement_list_function END
+
+    BEGIN           shift and go to state 106
+
+
+state 83
+
+    (10) argument -> VARIABLE .
+
+    CLOSE_PARENHESIS reduce using rule 10 (argument -> VARIABLE .)
+    SEMICOLON       reduce using rule 10 (argument -> VARIABLE .)
+
+
+state 84
+
+    (13) argument -> OPEN_PARENTHESIS . expression CLOSE_PARENHESIS
+    (46) expression -> . addsub
+    (47) expression -> . expression SUM addsub
+    (48) expression -> . expression SUB addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    expression                     shift and go to state 107
+    addsub                         shift and go to state 50
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 85
+
+    (7) statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments . CLOSE_PARENHESIS
+    (9) arguments -> arguments . SEMICOLON argument
+
+    CLOSE_PARENHESIS shift and go to state 108
+    SEMICOLON       shift and go to state 109
+
+
+state 86
+
+    (8) arguments -> argument .
+
+    CLOSE_PARENHESIS reduce using rule 8 (arguments -> argument .)
+    SEMICOLON       reduce using rule 8 (arguments -> argument .)
+
+
+state 87
+
+    (11) argument -> NUMBER_INTEGER .
+
+    CLOSE_PARENHESIS reduce using rule 11 (argument -> NUMBER_INTEGER .)
+    SEMICOLON       reduce using rule 11 (argument -> NUMBER_INTEGER .)
+
+
+state 88
+
+    (12) argument -> NUMBER_REAL .
+
+    CLOSE_PARENHESIS reduce using rule 12 (argument -> NUMBER_REAL .)
+    SEMICOLON       reduce using rule 12 (argument -> NUMBER_REAL .)
+
+
+state 89
+
+    (47) expression -> expression SUM addsub .
+    (50) addsub -> addsub . MUL multiplayer
+    (51) addsub -> addsub . DIV multiplayer
+
+    SUM             reduce using rule 47 (expression -> expression SUM addsub .)
+    SUB             reduce using rule 47 (expression -> expression SUM addsub .)
+    END             reduce using rule 47 (expression -> expression SUM addsub .)
+    SEMICOLON       reduce using rule 47 (expression -> expression SUM addsub .)
+    CLOSE_PARENHESIS reduce using rule 47 (expression -> expression SUM addsub .)
+    EQUALLY         reduce using rule 47 (expression -> expression SUM addsub .)
+    MORE            reduce using rule 47 (expression -> expression SUM addsub .)
+    LESS            reduce using rule 47 (expression -> expression SUM addsub .)
+    MUL             shift and go to state 69
+    DIV             shift and go to state 70
+
+
+state 90
+
+    (48) expression -> expression SUB addsub .
+    (50) addsub -> addsub . MUL multiplayer
+    (51) addsub -> addsub . DIV multiplayer
+
+    SUM             reduce using rule 48 (expression -> expression SUB addsub .)
+    SUB             reduce using rule 48 (expression -> expression SUB addsub .)
+    END             reduce using rule 48 (expression -> expression SUB addsub .)
+    SEMICOLON       reduce using rule 48 (expression -> expression SUB addsub .)
+    CLOSE_PARENHESIS reduce using rule 48 (expression -> expression SUB addsub .)
+    EQUALLY         reduce using rule 48 (expression -> expression SUB addsub .)
+    MORE            reduce using rule 48 (expression -> expression SUB addsub .)
+    LESS            reduce using rule 48 (expression -> expression SUB addsub .)
+    MUL             shift and go to state 69
+    DIV             shift and go to state 70
+
+
+state 91
+
+    (50) addsub -> addsub MUL multiplayer .
+
+    MUL             reduce using rule 50 (addsub -> addsub MUL multiplayer .)
+    DIV             reduce using rule 50 (addsub -> addsub MUL multiplayer .)
+    SUM             reduce using rule 50 (addsub -> addsub MUL multiplayer .)
+    SUB             reduce using rule 50 (addsub -> addsub MUL multiplayer .)
+    END             reduce using rule 50 (addsub -> addsub MUL multiplayer .)
+    SEMICOLON       reduce using rule 50 (addsub -> addsub MUL multiplayer .)
+    CLOSE_PARENHESIS reduce using rule 50 (addsub -> addsub MUL multiplayer .)
+    EQUALLY         reduce using rule 50 (addsub -> addsub MUL multiplayer .)
+    MORE            reduce using rule 50 (addsub -> addsub MUL multiplayer .)
+    LESS            reduce using rule 50 (addsub -> addsub MUL multiplayer .)
+
+
+state 92
+
+    (51) addsub -> addsub DIV multiplayer .
+
+    MUL             reduce using rule 51 (addsub -> addsub DIV multiplayer .)
+    DIV             reduce using rule 51 (addsub -> addsub DIV multiplayer .)
+    SUM             reduce using rule 51 (addsub -> addsub DIV multiplayer .)
+    SUB             reduce using rule 51 (addsub -> addsub DIV multiplayer .)
+    END             reduce using rule 51 (addsub -> addsub DIV multiplayer .)
+    SEMICOLON       reduce using rule 51 (addsub -> addsub DIV multiplayer .)
+    CLOSE_PARENHESIS reduce using rule 51 (addsub -> addsub DIV multiplayer .)
+    EQUALLY         reduce using rule 51 (addsub -> addsub DIV multiplayer .)
+    MORE            reduce using rule 51 (addsub -> addsub DIV multiplayer .)
+    LESS            reduce using rule 51 (addsub -> addsub DIV multiplayer .)
+
+
+state 93
+
+    (56) multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .
+
+    MUL             reduce using rule 56 (multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    DIV             reduce using rule 56 (multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    SUM             reduce using rule 56 (multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    SUB             reduce using rule 56 (multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    END             reduce using rule 56 (multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    SEMICOLON       reduce using rule 56 (multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    CLOSE_PARENHESIS reduce using rule 56 (multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    EQUALLY         reduce using rule 56 (multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    MORE            reduce using rule 56 (multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    LESS            reduce using rule 56 (multiplayer -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+
+
+state 94
+
+    (59) while -> WHILE bool_expression DO BEGIN statement_list . END
+    (23) statement_list -> statement_list . SEMICOLON statement
+
+    END             shift and go to state 110
+    SEMICOLON       shift and go to state 34
+
+
+state 95
+
+    (68) bool -> OPEN_PARENTHESIS expression EQUALLY expression . CLOSE_PARENHESIS
+    (47) expression -> expression . SUM addsub
+    (48) expression -> expression . SUB addsub
+
+    CLOSE_PARENHESIS shift and go to state 111
+    SUM             shift and go to state 67
+    SUB             shift and go to state 68
+
+
+state 96
+
+    (69) bool -> OPEN_PARENTHESIS expression MORE expression . CLOSE_PARENHESIS
+    (47) expression -> expression . SUM addsub
+    (48) expression -> expression . SUB addsub
+
+    CLOSE_PARENHESIS shift and go to state 112
+    SUM             shift and go to state 67
+    SUB             shift and go to state 68
+
+
+state 97
+
+    (70) bool -> OPEN_PARENTHESIS expression LESS expression . CLOSE_PARENHESIS
+    (47) expression -> expression . SUM addsub
+    (48) expression -> expression . SUB addsub
+
+    CLOSE_PARENHESIS shift and go to state 113
+    SUM             shift and go to state 67
+    SUB             shift and go to state 68
+
+
+state 98
+
+    (60) if -> IF bool_expression THEN BEGIN statement_list_if . END ELSE BEGIN statement_list_if END
+    (61) if -> IF bool_expression THEN BEGIN statement_list_if . END
+    (29) statement_list_if -> statement_list_if . SEMICOLON statement_for_if
+
+    END             shift and go to state 114
+    SEMICOLON       shift and go to state 115
+
+
+state 99
+
+    (28) statement_list_if -> statement_for_if .
+
+    END             reduce using rule 28 (statement_list_if -> statement_for_if .)
+    SEMICOLON       reduce using rule 28 (statement_list_if -> statement_for_if .)
+
+
+state 100
+
+    (30) statement_for_if -> assign .
+
+    END             reduce using rule 30 (statement_for_if -> assign .)
+    SEMICOLON       reduce using rule 30 (statement_for_if -> assign .)
+
+
+state 101
+
+    (31) statement_for_if -> write .
+
+    END             reduce using rule 31 (statement_for_if -> write .)
+    SEMICOLON       reduce using rule 31 (statement_for_if -> write .)
+
+
+state 102
+
+    (32) statement_for_if -> while .
+
+    END             reduce using rule 32 (statement_for_if -> while .)
+    SEMICOLON       reduce using rule 32 (statement_for_if -> while .)
+
+
+state 103
+
+    (33) statement_for_if -> if .
+
+    END             reduce using rule 33 (statement_for_if -> if .)
+    SEMICOLON       reduce using rule 33 (statement_for_if -> if .)
+
+
+state 104
+
+    (34) statement_for_if -> CONTINUE .
+
+    END             reduce using rule 34 (statement_for_if -> CONTINUE .)
+    SEMICOLON       reduce using rule 34 (statement_for_if -> CONTINUE .)
+
+
+state 105
+
+    (35) statement_for_if -> BREAK .
+
+    END             reduce using rule 35 (statement_for_if -> BREAK .)
+    SEMICOLON       reduce using rule 35 (statement_for_if -> BREAK .)
+
+
+state 106
+
+    (5) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN . statement_list_function END
+    (6) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN . VAR dec_list statement_list_function END
+    (36) statement_list_function -> . statement_for_function
+    (37) statement_list_function -> . statement_list_function SEMICOLON statement_for_function
+    (38) statement_for_function -> . assign
+    (39) statement_for_function -> . write
+    (40) statement_for_function -> . while
+    (41) statement_for_function -> . if
+    (42) statement_for_function -> . return
+    (44) assign -> . VARIABLE ASSIGNMENT expression
+    (45) assign -> . VARIABLE ASSIGNMENT STRING
+    (57) write -> . WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> . WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+    (59) while -> . WHILE bool_expression DO BEGIN statement_list END
+    (60) if -> . IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> . IF bool_expression THEN BEGIN statement_list_if END
+    (43) return -> . RETURN expression
+
+    VAR             shift and go to state 117
+    VARIABLE        shift and go to state 20
+    WRITE           shift and go to state 21
+    WHILE           shift and go to state 22
+    IF              shift and go to state 23
+    RETURN          shift and go to state 124
+
+    statement_list_function        shift and go to state 116
+    statement_for_function         shift and go to state 118
+    assign                         shift and go to state 119
+    write                          shift and go to state 120
+    while                          shift and go to state 121
+    if                             shift and go to state 122
+    return                         shift and go to state 123
+
+state 107
+
+    (13) argument -> OPEN_PARENTHESIS expression . CLOSE_PARENHESIS
+    (47) expression -> expression . SUM addsub
+    (48) expression -> expression . SUB addsub
+
+    CLOSE_PARENHESIS shift and go to state 125
+    SUM             shift and go to state 67
+    SUB             shift and go to state 68
+
+
+state 108
+
+    (7) statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .
+
+    MUL             reduce using rule 7 (statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .)
+    DIV             reduce using rule 7 (statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .)
+    SUM             reduce using rule 7 (statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .)
+    SUB             reduce using rule 7 (statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .)
+    END             reduce using rule 7 (statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .)
+    SEMICOLON       reduce using rule 7 (statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .)
+    CLOSE_PARENHESIS reduce using rule 7 (statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .)
+    EQUALLY         reduce using rule 7 (statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .)
+    MORE            reduce using rule 7 (statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .)
+    LESS            reduce using rule 7 (statement_for_function_build -> VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS .)
+
+
+state 109
+
+    (9) arguments -> arguments SEMICOLON . argument
+    (10) argument -> . VARIABLE
+    (11) argument -> . NUMBER_INTEGER
+    (12) argument -> . NUMBER_REAL
+    (13) argument -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 83
+    NUMBER_INTEGER  shift and go to state 87
+    NUMBER_REAL     shift and go to state 88
+    OPEN_PARENTHESIS shift and go to state 84
+
+    argument                       shift and go to state 126
+
+state 110
+
+    (59) while -> WHILE bool_expression DO BEGIN statement_list END .
+
+    END             reduce using rule 59 (while -> WHILE bool_expression DO BEGIN statement_list END .)
+    SEMICOLON       reduce using rule 59 (while -> WHILE bool_expression DO BEGIN statement_list END .)
+
+
+state 111
+
+    (68) bool -> OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS .
+
+    DO              reduce using rule 68 (bool -> OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS .)
+    OR              reduce using rule 68 (bool -> OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS .)
+    AND             reduce using rule 68 (bool -> OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS .)
+    THEN            reduce using rule 68 (bool -> OPEN_PARENTHESIS expression EQUALLY expression CLOSE_PARENHESIS .)
+
+
+state 112
+
+    (69) bool -> OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS .
+
+    DO              reduce using rule 69 (bool -> OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS .)
+    OR              reduce using rule 69 (bool -> OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS .)
+    AND             reduce using rule 69 (bool -> OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS .)
+    THEN            reduce using rule 69 (bool -> OPEN_PARENTHESIS expression MORE expression CLOSE_PARENHESIS .)
+
+
+state 113
+
+    (70) bool -> OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS .
+
+    DO              reduce using rule 70 (bool -> OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS .)
+    OR              reduce using rule 70 (bool -> OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS .)
+    AND             reduce using rule 70 (bool -> OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS .)
+    THEN            reduce using rule 70 (bool -> OPEN_PARENTHESIS expression LESS expression CLOSE_PARENHESIS .)
+
+
+state 114
+
+    (60) if -> IF bool_expression THEN BEGIN statement_list_if END . ELSE BEGIN statement_list_if END
+    (61) if -> IF bool_expression THEN BEGIN statement_list_if END .
+
+    ELSE            shift and go to state 127
+    END             reduce using rule 61 (if -> IF bool_expression THEN BEGIN statement_list_if END .)
+    SEMICOLON       reduce using rule 61 (if -> IF bool_expression THEN BEGIN statement_list_if END .)
+
+
+state 115
+
+    (29) statement_list_if -> statement_list_if SEMICOLON . statement_for_if
+    (30) statement_for_if -> . assign
+    (31) statement_for_if -> . write
+    (32) statement_for_if -> . while
+    (33) statement_for_if -> . if
+    (34) statement_for_if -> . CONTINUE
+    (35) statement_for_if -> . BREAK
+    (44) assign -> . VARIABLE ASSIGNMENT expression
+    (45) assign -> . VARIABLE ASSIGNMENT STRING
+    (57) write -> . WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> . WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+    (59) while -> . WHILE bool_expression DO BEGIN statement_list END
+    (60) if -> . IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> . IF bool_expression THEN BEGIN statement_list_if END
+
+    CONTINUE        shift and go to state 104
+    BREAK           shift and go to state 105
+    VARIABLE        shift and go to state 20
+    WRITE           shift and go to state 21
+    WHILE           shift and go to state 22
+    IF              shift and go to state 23
+
+    statement_for_if               shift and go to state 128
+    assign                         shift and go to state 100
+    write                          shift and go to state 101
+    while                          shift and go to state 102
+    if                             shift and go to state 103
+
+state 116
+
+    (5) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN statement_list_function . END
+    (37) statement_list_function -> statement_list_function . SEMICOLON statement_for_function
+
+    END             shift and go to state 129
+    SEMICOLON       shift and go to state 130
+
+
+state 117
+
+    (6) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR . dec_list statement_list_function END
+    (14) dec_list -> . dec
+    (15) dec_list -> . dec_list SEMICOLON dec
+    (16) dec -> . variable_list COLON type
+    (20) variable_list -> . VARIABLE
+    (21) variable_list -> . variable_list COMMA VARIABLE
+
+    VARIABLE        shift and go to state 6
+
+    dec_list                       shift and go to state 131
+    dec                            shift and go to state 4
+    variable_list                  shift and go to state 5
+
+state 118
+
+    (36) statement_list_function -> statement_for_function .
+
+    END             reduce using rule 36 (statement_list_function -> statement_for_function .)
+    SEMICOLON       reduce using rule 36 (statement_list_function -> statement_for_function .)
+
+
+state 119
+
+    (38) statement_for_function -> assign .
+
+    END             reduce using rule 38 (statement_for_function -> assign .)
+    SEMICOLON       reduce using rule 38 (statement_for_function -> assign .)
+
+
+state 120
+
+    (39) statement_for_function -> write .
+
+    END             reduce using rule 39 (statement_for_function -> write .)
+    SEMICOLON       reduce using rule 39 (statement_for_function -> write .)
+
+
+state 121
+
+    (40) statement_for_function -> while .
+
+    END             reduce using rule 40 (statement_for_function -> while .)
+    SEMICOLON       reduce using rule 40 (statement_for_function -> while .)
+
+
+state 122
+
+    (41) statement_for_function -> if .
+
+    END             reduce using rule 41 (statement_for_function -> if .)
+    SEMICOLON       reduce using rule 41 (statement_for_function -> if .)
+
+
+state 123
+
+    (42) statement_for_function -> return .
+
+    END             reduce using rule 42 (statement_for_function -> return .)
+    SEMICOLON       reduce using rule 42 (statement_for_function -> return .)
+
+
+state 124
+
+    (43) return -> RETURN . expression
+    (46) expression -> . addsub
+    (47) expression -> . expression SUM addsub
+    (48) expression -> . expression SUB addsub
+    (49) addsub -> . multiplayer
+    (50) addsub -> . addsub MUL multiplayer
+    (51) addsub -> . addsub DIV multiplayer
+    (52) multiplayer -> . statement_for_function_build
+    (53) multiplayer -> . VARIABLE
+    (54) multiplayer -> . NUMBER_INTEGER
+    (55) multiplayer -> . NUMBER_REAL
+    (56) multiplayer -> . OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (7) statement_for_function_build -> . VARIABLE OPEN_PARENTHESIS arguments CLOSE_PARENHESIS
+
+    VARIABLE        shift and go to state 47
+    NUMBER_INTEGER  shift and go to state 53
+    NUMBER_REAL     shift and go to state 54
+    OPEN_PARENTHESIS shift and go to state 55
+
+    expression                     shift and go to state 132
+    addsub                         shift and go to state 50
+    multiplayer                    shift and go to state 51
+    statement_for_function_build   shift and go to state 52
+
+state 125
+
+    (13) argument -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .
+
+    CLOSE_PARENHESIS reduce using rule 13 (argument -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+    SEMICOLON       reduce using rule 13 (argument -> OPEN_PARENTHESIS expression CLOSE_PARENHESIS .)
+
+
+state 126
+
+    (9) arguments -> arguments SEMICOLON argument .
+
+    CLOSE_PARENHESIS reduce using rule 9 (arguments -> arguments SEMICOLON argument .)
+    SEMICOLON       reduce using rule 9 (arguments -> arguments SEMICOLON argument .)
+
+
+state 127
+
+    (60) if -> IF bool_expression THEN BEGIN statement_list_if END ELSE . BEGIN statement_list_if END
+
+    BEGIN           shift and go to state 133
+
+
+state 128
+
+    (29) statement_list_if -> statement_list_if SEMICOLON statement_for_if .
+
+    END             reduce using rule 29 (statement_list_if -> statement_list_if SEMICOLON statement_for_if .)
+    SEMICOLON       reduce using rule 29 (statement_list_if -> statement_list_if SEMICOLON statement_for_if .)
+
+
+state 129
+
+    (5) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN statement_list_function END .
+
+    BEGIN           reduce using rule 5 (function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN statement_list_function END .)
+    SEMICOLON       reduce using rule 5 (function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN statement_list_function END .)
+
+
+state 130
+
+    (37) statement_list_function -> statement_list_function SEMICOLON . statement_for_function
+    (38) statement_for_function -> . assign
+    (39) statement_for_function -> . write
+    (40) statement_for_function -> . while
+    (41) statement_for_function -> . if
+    (42) statement_for_function -> . return
+    (44) assign -> . VARIABLE ASSIGNMENT expression
+    (45) assign -> . VARIABLE ASSIGNMENT STRING
+    (57) write -> . WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> . WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+    (59) while -> . WHILE bool_expression DO BEGIN statement_list END
+    (60) if -> . IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> . IF bool_expression THEN BEGIN statement_list_if END
+    (43) return -> . RETURN expression
+
+    VARIABLE        shift and go to state 20
+    WRITE           shift and go to state 21
+    WHILE           shift and go to state 22
+    IF              shift and go to state 23
+    RETURN          shift and go to state 124
+
+    statement_for_function         shift and go to state 134
+    assign                         shift and go to state 119
+    write                          shift and go to state 120
+    while                          shift and go to state 121
+    if                             shift and go to state 122
+    return                         shift and go to state 123
+
+state 131
+
+    (6) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR dec_list . statement_list_function END
+    (15) dec_list -> dec_list . SEMICOLON dec
+    (36) statement_list_function -> . statement_for_function
+    (37) statement_list_function -> . statement_list_function SEMICOLON statement_for_function
+    (38) statement_for_function -> . assign
+    (39) statement_for_function -> . write
+    (40) statement_for_function -> . while
+    (41) statement_for_function -> . if
+    (42) statement_for_function -> . return
+    (44) assign -> . VARIABLE ASSIGNMENT expression
+    (45) assign -> . VARIABLE ASSIGNMENT STRING
+    (57) write -> . WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> . WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+    (59) while -> . WHILE bool_expression DO BEGIN statement_list END
+    (60) if -> . IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> . IF bool_expression THEN BEGIN statement_list_if END
+    (43) return -> . RETURN expression
+
+    SEMICOLON       shift and go to state 9
+    VARIABLE        shift and go to state 20
+    WRITE           shift and go to state 21
+    WHILE           shift and go to state 22
+    IF              shift and go to state 23
+    RETURN          shift and go to state 124
+
+    statement_list_function        shift and go to state 135
+    statement_for_function         shift and go to state 118
+    assign                         shift and go to state 119
+    write                          shift and go to state 120
+    while                          shift and go to state 121
+    if                             shift and go to state 122
+    return                         shift and go to state 123
+
+state 132
+
+    (43) return -> RETURN expression .
+    (47) expression -> expression . SUM addsub
+    (48) expression -> expression . SUB addsub
+
+    END             reduce using rule 43 (return -> RETURN expression .)
+    SEMICOLON       reduce using rule 43 (return -> RETURN expression .)
+    SUM             shift and go to state 67
+    SUB             shift and go to state 68
+
+
+state 133
+
+    (60) if -> IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN . statement_list_if END
+    (28) statement_list_if -> . statement_for_if
+    (29) statement_list_if -> . statement_list_if SEMICOLON statement_for_if
+    (30) statement_for_if -> . assign
+    (31) statement_for_if -> . write
+    (32) statement_for_if -> . while
+    (33) statement_for_if -> . if
+    (34) statement_for_if -> . CONTINUE
+    (35) statement_for_if -> . BREAK
+    (44) assign -> . VARIABLE ASSIGNMENT expression
+    (45) assign -> . VARIABLE ASSIGNMENT STRING
+    (57) write -> . WRITE OPEN_PARENTHESIS expression CLOSE_PARENHESIS
+    (58) write -> . WRITE OPEN_PARENTHESIS STRING CLOSE_PARENHESIS
+    (59) while -> . WHILE bool_expression DO BEGIN statement_list END
+    (60) if -> . IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END
+    (61) if -> . IF bool_expression THEN BEGIN statement_list_if END
+
+    CONTINUE        shift and go to state 104
+    BREAK           shift and go to state 105
+    VARIABLE        shift and go to state 20
+    WRITE           shift and go to state 21
+    WHILE           shift and go to state 22
+    IF              shift and go to state 23
+
+    statement_list_if              shift and go to state 136
+    statement_for_if               shift and go to state 99
+    assign                         shift and go to state 100
+    write                          shift and go to state 101
+    while                          shift and go to state 102
+    if                             shift and go to state 103
+
+state 134
+
+    (37) statement_list_function -> statement_list_function SEMICOLON statement_for_function .
+
+    END             reduce using rule 37 (statement_list_function -> statement_list_function SEMICOLON statement_for_function .)
+    SEMICOLON       reduce using rule 37 (statement_list_function -> statement_list_function SEMICOLON statement_for_function .)
+
+
+state 135
+
+    (6) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function . END
+    (37) statement_list_function -> statement_list_function . SEMICOLON statement_for_function
+
+    END             shift and go to state 137
+    SEMICOLON       shift and go to state 130
+
+
+state 136
+
+    (60) if -> IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if . END
+    (29) statement_list_if -> statement_list_if . SEMICOLON statement_for_if
+
+    END             shift and go to state 138
+    SEMICOLON       shift and go to state 115
+
+
+state 137
+
+    (6) function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function END .
+
+    BEGIN           reduce using rule 6 (function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function END .)
+    SEMICOLON       reduce using rule 6 (function -> FUNCTION VARIABLE OPEN_PARENTHESIS dec_list CLOSE_PARENHESIS BEGIN VAR dec_list statement_list_function END .)
+
+
+state 138
+
+    (60) if -> IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END .
+
+    END             reduce using rule 60 (if -> IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END .)
+    SEMICOLON       reduce using rule 60 (if -> IF bool_expression THEN BEGIN statement_list_if END ELSE BEGIN statement_list_if END .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for OR in state 61 resolved as shift
+WARNING: reduce/reduce conflict in state 40 resolved using rule (bool_expression -> bool)
+WARNING: rejected rule (bool_expression_addsub -> bool) in state 40

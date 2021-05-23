@@ -1,0 +1,7 @@
+var a, b, c: real
+begin
+a:= 5.5;
+b:= 4.2;
+c:= a+b;
+write (c)
+end
